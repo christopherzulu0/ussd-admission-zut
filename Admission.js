@@ -9,9 +9,7 @@ const Admission = {
     let response = "";
 
     if(level === 1 ){
-      response = `CON <b>APPLICATION FORM 2023</b>
-      
-                      Kindly follow the admission steps to successfully submit your application:
+      response = `CON <b>APPLICATION FORM PROCESS 2023</b>
 
                       1. Personal Information<b>(Step 1)</b>
                       2. Occupation Details<b>(Step 2)</b>

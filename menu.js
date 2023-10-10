@@ -4,7 +4,7 @@ const countryCode = require("./util/countryCode");
 const bcrypt = require("bcrypt");
 const qs = require("qs");
 
-const HandleSavings = require('./HandleSavings')
+const HandleSavings = require('./Courses')
 const { response } = require('express');
 const CircleSavings = require("./menu")
 const sendSMS = async (phoneNumber, message) => {
@@ -66,19 +66,18 @@ const sendSMS2 = async (phoneNumber, message) => {
 const menu = {
   MainMenu:(userName) => {
     
-     if(loans){
-      const requestsCount = totalRequests || 0;
+   
       const response = `CON Welcome <b>${userName}!</b>
        Please select an option to proceed with the Admission Process:
 
       1. Apply For Admission
-      2. Check Application Process
+      2. Check Application Status
       3. Pay Application Fee
       4. Courses Offered At ZUT
       5. Contact Support
       `;
 return response;
-    }
+    
     
   },
   unregisteredMenu: () => {

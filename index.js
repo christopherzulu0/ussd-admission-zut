@@ -6,7 +6,7 @@ const {
   Register,
   unregisteredMenu,
 } = require("./menu");
-// const { PersonalSavings } = require("./Personal_Savings");
+const { Status } = require("./CheckStatus");
 // const { CheckBalance } = require("./CheckBalance");
 // const { SendMoney } = require("./SendMoney");
 // const { WithdrawMoney } = require("./Withdraw_Money");
@@ -18,6 +18,8 @@ const { ApplyForAdmission } = require("./Admission")
   const mongoose = require("mongoose");
   const dotenv = require("dotenv");
   const cors = require("cors");
+const { Pay } = require("./PayApplication");
+const Courses = require("./Courses");
   const app = express();
 
   
@@ -155,7 +157,7 @@ console.log("#",req.body)
 
       // MAIN LOGIC
       if (text == "" && userRegistered == true) {
-        response = MainMenu(userName,total,day,loans,totalRequests);
+        response = MainMenu(userName);
 
       } else if (text == "" && userRegistered == false) {
         response = unregisteredMenu();
@@ -175,15 +177,15 @@ console.log("#",req.body)
           case "1":
             response = await ApplyForAdmission(textArray, phoneNumber);
             break;
-          // case "2": 
-          //     response = await PersonalSavings(textArray, phoneNumber,userName, total, day, loans, totalRequests);
-          //     break;
-          // case "3":
-          //     response = await CheckBalance(textArray,phoneNumber);
-          //     break;
-          // case "4":
-          //     response = await SendMoney(textArray, phoneNumber);
-          //     break;
+          case "2": 
+              response = await Status(textArray, phoneNumber);
+              break;
+          case "3":
+              response = await Pay(textArray,phoneNumber);
+              break;
+          case "4":
+              response = await Courses(textArray, phoneNumber);
+              break;
           // case "5":
           //   response = await WithdrawMoney(textArray,phoneNumber);
           //   break;
