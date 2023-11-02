@@ -68,16 +68,7 @@ console.log("#",req.body)
       let userName;
       let userRegistered;
       let response = "";
-      let incurredLoan;
-      let loan;
-      let daysRemaining;
-      let total;
-      let days;
-      let dueDate;
-      let currentDate;
-      let timeDifference;
-      let day;
-      let loans;
+      
     
      
 
