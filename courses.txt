@@ -1,0 +1,30 @@
+if(level === 5 && textArray[4] === '2'){
+  response = `CON 
+                  1.  Marketing(DM)
+                  2.  Business Administration(BA)
+                  3.  Information Technology(DIT)
+                  4.  Electrical (BCS)
+                  5.  Records Management (DRM)
+                
+                `;
+      return response;
+
+ }if(level === 5 && textArray[4] === '3'){
+                  response = `CON 
+                  1.  Basic Computer Skills(BCS)
+                  2.  Business Management(CBM)
+                  3.  Domestic Electrical Installation and Appliances(CDEIA)
+                
+                `;
+                return response;
+ }if(level === 5 && textArray[4] === '4'){
+                  response = `CON 
+                  1.  ABE
+                  2.  ACCA
+                  3.  Banking and Finance
+                  4.  Chatered Account- Zambia
+                  5.  Cisco certified Network Associate
+                
+                `;
+              return response;
+}

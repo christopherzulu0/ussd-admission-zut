@@ -1,4 +1,4 @@
-const {Transaction, Wallet, User,Savings,PersonalSavings} = require('./models/Schemas');
+const {User,Category,Applications} = require('./models/Schemas');
 const axios = require("axios");
 const countryCode = require("./util/countryCode");
 const bcrypt = require("bcrypt");
@@ -67,8 +67,7 @@ const menu = {
   MainMenu:(userName) => {
     
    
-      const response = `CON Welcome <b>${userName}!</b>
-       Please select an option to proceed with the Admission Process:
+      const response = `CON Welcome <b>${userName}!</b> to ZUCT Admission platform.
 
       1. Apply For Admission
       2. Check Application Status
@@ -178,7 +177,7 @@ return response;
             
         // Call the sendSMS function after successful registration
             sendSMS2(phoneNumber, "Congratulations! You have successfully submitted the form.");
-            response = `END Congratulations ${userName}, You have successfully submitted the form.`;
+            response = `END Congratulations ${userName}, You have successfully created an account.`;
           }
         }
         }

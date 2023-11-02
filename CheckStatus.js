@@ -1,17 +1,6 @@
-const { Transaction, Wallet, User, Savings, PersonalSavings } = require('./models/Schemas');
-
+const { User,Category,Applications } = require('./models/Schemas');
 const CheckStatus = {
-    getApplicationStatus: (applicationNumber) => {
-        // Implement logic to fetch application status based on the applicationNumber from your database or static data
-        // For demonstration purposes, using static data
-        const applicationStatuses = {
-            '12345': 'accepted',
-            '67890': 'pending',
-            '13579': 'rejected'
-        };
 
-        return applicationStatuses[applicationNumber] || 'not_found';
-    },
 
     Status: async (textArray, phoneNumber) => {
         let response = '';
@@ -22,17 +11,32 @@ const CheckStatus = {
             response += 'Please enter your application number:';
         } else if (level === 2) {
             const applicationNumber = textArray[1];
-            const status = CheckStatus.getApplicationStatus(applicationNumber);
 
-            if (status === 'accepted') {
-                response = `END Congratulations! Your application (ID: ${applicationNumber}) has been accepted.`;
-            } else if (status === 'pending') {
-                response = `END Your application (ID: ${applicationNumber}) is still under review. Please check back later.`;
-            } else if (status === 'rejected') {
-                response = `END We regret to inform you that your application (ID: ${applicationNumber}) has been rejected.`;
-            } else {
-                response = `END Application with ID ${applicationNumber} not found. Please check your application number.`;
+            try {
+                // Check if the application exists in the database
+                const application = await Applications.findOne({  Number: phoneNumber });
+
+                if (application) {
+                    // Application found, get its status from the database
+                    const status = application.Status; // Assuming you have a 'Status' field in your Applications schema
+
+                    if (status === 'Approved') {
+                        response = `END Congratulations! Your application (ID: <b>${applicationNumber}</b>) has been accepted.`;
+                    } else if (status === 'Pending') {
+                        response = `END Your application (ID: <b>${applicationNumber}</b>) is still under review. Please check back later.`;
+                    } else if (status === 'Rejected') {
+                        response = `END We regret to inform you that your application (ID: <b>${applicationNumber}</b>) has been rejected.`;
+                    } else {
+                        response = `END Invalid application status: ${status}. Please contact the admissions office for more information.`;
+                    }
+                } else {
+                    response = `END Application with ID <b>${applicationNumber}</b> not found. Please check your application number.`;
+                }
+            } catch (error) {
+                console.error(error);
+                response = `END An error occurred while retrieving application status. Please try again later.`;
             }
+        
         }
 
         return response;

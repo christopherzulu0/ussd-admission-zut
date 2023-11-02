@@ -14,12 +14,14 @@ const { Status } = require("./CheckStatus");
 const { ApplyForAdmission } = require("./Admission")
 
   
-  const {Transaction, Wallet, User,Savings} = require('./models/Schemas');
+  const {User,Category,Applications} = require('./models/Schemas');
   const mongoose = require("mongoose");
   const dotenv = require("dotenv");
   const cors = require("cors");
 const { Pay } = require("./PayApplication");
 const Courses = require("./Courses");
+const { AdminArea } = require("./Admin");
+const {Contact } = require("./ContactSupport");
   const app = express();
 
   
@@ -59,56 +61,6 @@ console.log("#",req.body)
   const text = spintext
   
   
-  async function updateDaysRemaining() {
-    const currentDate = new Date();
-    const activeLoanRequests = await Savings.find({
-      'LoanBalance.Status': 'Approved',
-      'LoanBalance.dueDate': { $gte: currentDate },
-    });
-  
-    activeLoanRequests.forEach((circle) => {
-      circle.LoanBalance.forEach((loanRequest) => {
-        const daysRemaining = Math.ceil(
-          (loanRequest.dueDate - currentDate) / (1000 * 60 * 60 * 24)
-        );
-        loanRequest.daysRemaining = daysRemaining;
-      });
-  
-      circle.save();
-    });
-  }
-  
-  async function updateCircleBalance() {
-    const currentDate = new Date();
-  
-    // Find all savings circles with closingDate equal to currentDate
-    const circles = await Savings.find({ closingDate: { $gte: currentDate }, });
-    const users = await User.findOne({number: phoneNumber});
-    const user_id = users._id;
-    for (const circle of circles) {
-      // Calculate the balance per group member
-      const groupMemberCount = circle.GroupMembers.length;
-      const balancePerMember = circle.circleBalance[0].Balance / groupMemberCount;
-  
-      // Credit each group member's wallet
-      for (const member of circle.GroupMembers) {
-        const wallet = await Wallet.findOne({ user: member.users._id });
-        wallet.balance += balancePerMember;
-        await wallet.save();
-      }
-  
-      // Deduct the balance from circleBalance
-      circle.circleBalance[0].Balance = 0;
-      await circle.save();
-    }
-  }
-  
-  
-  // Schedule the task to run every day
-  cron.schedule('0 0 * * *', () => {
-    updateDaysRemaining();
-    updateCircleBalance();
-  });
   
   User.findOne({ number: phoneNumber })
     .then( async (user) => {
@@ -135,19 +87,7 @@ console.log("#",req.body)
         userRegistered = true;
         userName = user.FirstName;
       
-        num = user.number;
-        loan = await Savings.findOne({'LoanBalance.BorrowerNumber':num});
-        loans = await Savings.findOne({'LoanBalance.BorrowerNumber':num});
-        incurredLoan = loan ? loan.LoanBalance.find(balance => balance.BorrowerNumber === num) : null;
-        incurred = incurredLoan ? incurredLoan.totalLoan : 0;
-        total = incurred;
-      
-        //Display the of days remaining to due date
-         dueDate = incurredLoan?.dueDate;
-        currentDate = new Date();
-       timeDifference = dueDate?.getTime() - currentDate.getTime();
-        day = timeDifference ? Math.ceil(timeDifference / (1000 * 60 * 60 * 24)) : null;
-    
+       
     
       }
       
@@ -186,12 +126,13 @@ console.log("#",req.body)
           case "4":
               response = await Courses(textArray, phoneNumber);
               break;
-          // case "5":
-          //   response = await WithdrawMoney(textArray,phoneNumber);
-          //   break;
-          //   case "6":
-          //     response = await Notification(textArray, phoneNumber, userName, total, day, loans, totalRequests);
-          //     break;
+          case "5":
+            response = await Contact(textArray, phoneNumber);
+            break;
+          case "6":
+            response = await AdminArea(textArray,phoneNumber);
+            break;
+           
           default:
             response = "END Invalid choice. Please try again";
         }

@@ -1,4 +1,4 @@
-const { Transaction, Wallet, User, Savings, PersonalSavings } = require('./models/Schemas');
+const { User,Category,Applications, PaymentRecord } = require('./models/Schemas');
 const axios = require('axios');
 const countryCode = require('./util/countryCode');
 const util = require('util');
@@ -27,25 +27,61 @@ const PayApplication = {
         }
     },
 
-    Pay: async (textArray, phoneNumber) => {
+    Pay: async (textArray, phoneNumber, applicantName) => {
         let response = '';
         let level = textArray.length;
-
+    
         if (level === 1) {
             response = 'CON <b>Welcome to ZUT Application Payment!</b>\n';
-
             response += 'Please enter your application number:';
         } else if (level === 2) {
             const applicationNumber = textArray[1];
-
-            // Simulated application fee based on application number (replace this with your actual logic)
-            const applicationFee = 50; // Assuming application fee is $50
-
-            // Initiate payment and get payment URL
-            const paymentUrl = await PayApplication.initiatePayment(applicationNumber, applicationFee);
-
-            response = `END Please complete your payment of $${applicationFee} by clicking on the following link:\n${paymentUrl}`;
+    
+            try {
+                // Check if payment status is already 'Paid'
+                const application = await Applications.findOne({ ApplicationID: applicationNumber, PhoneNumber: phoneNumber });
+    
+                if (application && application.PaymentStatus === 'Paid') {
+                    response = 'END Payment for this application has already been made.';
+                } else {
+                    // Assume the payment is confirmed, you can add payment confirmation logic here if needed
+                    const paymentConfirmed = true;
+                    const applicationFee = 150;
+    
+                    if (paymentConfirmed) {
+                        // Update payment status for the application in the Applications collection
+                        const updatedApplication = await Applications.findOneAndUpdate(
+                            { ApplicationID: applicationNumber, Number: phoneNumber },
+                            { $set: { PaymentStatus: 'Paid' } },
+                            { new: true }
+                        );
+    
+                        if (updatedApplication) {
+                            // Record the payment in the PaymentRecord collection
+                            const paymentRecord = new PaymentRecord({
+                                ApplicationID: applicationNumber,
+                                ApplicantName: updatedApplication.Name, // Use the provided applicantName
+                                AmountPaid: applicationFee, // You can set the actual paid amount here
+                                Course: updatedApplication.Course
+                            });
+    
+                            await paymentRecord.save();
+    
+                            response = `END Payment for application number ${applicationNumber} confirmed. Your application is now paid and under review.`;
+                        } else {
+                            response = 'END Application not found or invalid credentials. Please check your application number and try again.';
+                        }
+                    } else {
+                        response = 'END Payment confirmation failed. Please contact customer support for assistance.';
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating payment status:', error);
+                response = 'END An error occurred while updating payment status. Please try again later.';
+            }
         }
+
+  
 
         return response;
     }

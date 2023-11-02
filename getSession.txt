@@ -1,2 +1,0 @@
- openssl rand -base64 32 | sed 's/\//-/g' | sed 's/+/_/g' | sed 's/=//g'
-using gitbash
