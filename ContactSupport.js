@@ -7,7 +7,11 @@ Support = {
         const level = textArray.length;
 
         if (level === 1) {
-            response = `CON Support`;
+            response = `CON <b>Help Desk Contacts</b>
+
+             Administrator: 0761 536370
+             Staff: 0776294112
+            `;
         return response;
         }
     }

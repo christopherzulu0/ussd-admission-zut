@@ -31,8 +31,7 @@ const Admin = {
                 response = `CON <b>Welcome back Christopher!</b>
                 1. Review Applications
                 2. Manage Courses
-                3. Payment Records
-                4. Add Course category
+                3. Add Course category
                `;
           return response;
             }
@@ -83,7 +82,7 @@ const Admin = {
             
            
                
-        } if (level === 4 && textArray[1] === '1' && textArray[3] === '1') {
+        } if (level === 3 && textArray[1] === '1' && textArray[3] === '1') {
             const selectedIndex = parseInt(textArray[2]) - 1;
             const pending = await Applications.find({ Status: 'Pending' });
             const selectedApplication = pending[selectedIndex]; // Assuming pendingApplications is already populated
@@ -124,7 +123,7 @@ const Admin = {
             return response;
         }
         //Flow for Rejecting  an application
-        if(level === 4 && textArray[1] === '1' && textArray[3] === '2'){
+        if(level === 3 && textArray[1] === '1' && textArray[3] === '2'){
             const selectedIndex = parseInt(textArray[2]) - 1;
             const pending = await Applications.find({ Status: 'Pending' });
             const selectedApplication = pending[selectedIndex]; // Assuming pendingApplications is already populated
@@ -157,7 +156,17 @@ const Admin = {
             } else {
                 // Invalid application selection or application is not in 'Pending' status
                 response = 'END Invalid application selection or application is not in pending status.';
-               
+                4
+                4
+                4
+                4
+                4
+                4
+                4
+                4
+                4
+                4
+                4
             }
         
             return response;
@@ -177,7 +186,7 @@ const Admin = {
             return response;
         }
 
-        if (level === 4 && textArray[2] === '1') {
+        if (level === 3 && textArray[2] === '1') {
             response = `CON Enter course code:`;
             return response;
         }if (level === 5 && textArray[2] === '1') {
@@ -204,7 +213,7 @@ const Admin = {
    
         if (level === 6 && textArray[2] === '1') {
             const course = textArray[3];
-            const code = textArray[4];
+            const code = textArray[3];
            // Get the selected category index from the USSD response
             const selectedCategoryIndex = parseInt(textArray[5]) - 1;
             // Retrieve the selected category name using the index
@@ -231,7 +240,7 @@ const Admin = {
                 if (selectedCategory) {
                     // Extract course name and course code from textArray
                     const courseName = textArray[3];
-                    const courseCode = textArray[4];
+                    const courseCode = textArray[3];
         
                     // Push the new course data into the Courses array of the selected category
                     selectedCategory.Courses.push({
@@ -280,7 +289,7 @@ const Admin = {
       }
 
       //List of the courses
-      if (level === 4 && textArray[2] === '2') {
+      if (level === 3 && textArray[2] === '2') {
         try {
             const selectedCategoryIndex = parseInt(textArray[3]) - 1;
             const selectedCategoryName = selectedCategories[selectedCategoryIndex];
@@ -318,7 +327,7 @@ const Admin = {
 if (level === 5 && textArray[2] === '2') {
     try {
         const selectedCategoryIndex = parseInt(textArray[3]) - 1;
-        const selectedCourseIndex = parseInt(textArray[4]) - 1;
+        const selectedCourseIndex = parseInt(textArray[3]) - 1;
 
         const selectedCategoryName = selectedCategories[selectedCategoryIndex];
         const selectedCategory = await Category.findOne({ Category: selectedCategoryName });
@@ -350,10 +359,10 @@ if (level === 5 && textArray[2] === '2') {
         
 
 
-        if (level === 2 && textArray[1] === '4') {
+        if (level === 2 && textArray[1] === '3') {
             response = `CON Enter category name`;
             return response;
-        } if (level === 3 && textArray[1] === '4') {
+        } if (level === 3 && textArray[1] === '3') {
             response = `CON CategoryName: <b>${textArray[2]}</b>
 
                         1. Save
@@ -362,7 +371,7 @@ if (level === 5 && textArray[2] === '2') {
             return response;
         }
 
-        if (level === 4 && textArray[1] === '4' && textArray[3] === '1') {
+        if (level === 4 && textArray[1] === '3' && textArray[3] === '1') {
             function createCategory() {
                 return new Promise(async (resolve, reject) => {
                     const userData = {
