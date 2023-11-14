@@ -70,38 +70,24 @@ const Admin = {
         if (level === 3 && textArray[1] === '1') {
             const selectedIndex = parseInt(textArray[2]) - 1;
             const selectedReview = selectedApplication[selectedIndex]
-            const paid = selectedReview.PaymentStatus;
-
-            if(paid === 'Pending'){
                  // Logic to display the selected application details for review
                  response = `CON <b>Review Application:</b>\n`;
                  response += `Name: <b>${selectedReview.Name}</b>\n`;
                  response += `Course:  <b>${selectedReview.Course}</b>\n`;
                  response += `Program:  <b>${selectedReview.Program}</b>\n`;
-                 response += `PaymentStatus:  <b>${selectedReview.PaymentStatus}</b>\n`;
-                 response += `99. Back\n`;
-         
-             return response;
-            }else{
-                 // Logic to display the selected application details for review
-                 response = `CON <b>Review Application:</b>\n`;
-                 response += `Name: <b>${selectedReview.Name}</b>\n`;
-                 response += `Course:  <b>${selectedReview.Course}</b>\n`;
-                 response += `Program:  <b>${selectedReview.Program}</b>\n`;
-                 response += `PaymentStatus:  <b>${selectedReview.PaymentStatus}</b>\n`;
                  response += `1. Approve\n`;
                  response += `2. Reject\n`;
                  response += `99. Back\n`;
          
              return response;
-            }
+            
            
                
         } if (level === 4 && textArray[1] === '1' && textArray[3] === '1') {
             const selectedIndex = parseInt(textArray[2]) - 1;
             const pending = await Applications.find({ Status: 'Pending' });
             const selectedApplication = pending[selectedIndex]; // Assuming pendingApplications is already populated
-            Paid
+           
             // Check if selectedApplication exists and its PaymentStatus is 'Pending'
             if (selectedApplication && selectedApplication.Status === 'Pending') {
                
@@ -114,7 +100,7 @@ const Admin = {
                         { new: true }
                     );
         
-                    if (updatedApplication) {Paid
+                    if (updatedApplication) {
                         // Application status updated successfully
                         // You can optionally perform additional actions here
                         response = 'END Application approved successfully!';
@@ -127,7 +113,7 @@ const Admin = {
                 } catch (error) {
                     console.error('Error updating application status:', error);
                     response = 'END An error occurred while updating application status. Please try again later.';
-                    return response;Paid
+                    return response;
                 }
             } else {
                 // Invalid application selection or application is not in 'Pending' status
@@ -361,42 +347,6 @@ if (level === 5 && textArray[2] === '2') {
         response = 'END An unexpected error occurred while deleting the course.';
     }
 }
-
-    
-    
-
-
-
-
-
-        // Flow for managing payment records
-        if (level === 2 && textArray[1] === '3') {
-            try {
-                // Fetch all payment records from the database
-                const paymentRecords = await PaymentRecord.find();
-        
-                // Check if payment records are found
-                if (paymentRecords.length > 0) {
-                    // Display payment records
-                    response = `CON Payment Records:\n`;
-                    paymentRecords.forEach((record, index) => {
-                        response += `${index + 1}. ID: <b>${record.ApplicationID}</b>
-                        Name: <b>${record.ApplicantName}</b>
-                        Amount: <b>${record.AmountPaid}</b>`;
-                    });
-                    ;
-                } else {
-                    // If no payment records are found, provide a message
-                    response = `END No payment records found.\n`;
-                }
-            } catch (error) {
-                // Handle any errors that occur during database operations
-                console.error(error);
-                response = 'END An unexpected error occurred while retrieving payment records.';
-            }
-            return response;
-        }
-
         
 
 
@@ -439,7 +389,9 @@ if (level === 5 && textArray[2] === '2') {
             // if user creation was successful
             else {
 
-                response = `END Category <b>${textArray[2]}</b> was added successfully`;
+                response = `CON Category <b>${textArray[2]}</b> was added successfully
+                  99. Go Home
+                `;
                 return response;
             }
         } 

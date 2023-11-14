@@ -18,7 +18,7 @@ const { ApplyForAdmission } = require("./Admission")
   const mongoose = require("mongoose");
   const dotenv = require("dotenv");
   const cors = require("cors");
-const { Pay } = require("./PayApplication");
+
 const Courses = require("./Courses");
 const { AdminArea } = require("./Admin");
 const {Contact } = require("./ContactSupport");
@@ -112,15 +112,12 @@ console.log("#",req.body)
               response = await Status(textArray, phoneNumber);
               break;
           case "3":
-              response = await Pay(textArray,phoneNumber);
-              break;
-          case "4":
               response = await Courses(textArray, phoneNumber);
               break;
-          case "5":
+          case "4":
             response = await Contact(textArray, phoneNumber);
             break;
-          case "6":
+          case "5":
             response = await AdminArea(textArray,phoneNumber);
             break;
            

@@ -71,9 +71,8 @@ const menu = {
 
       1. Apply For Admission
       2. Check Application Status
-      3. Pay Application Fee
-      4. Courses Offered At ZUT
-      5. Contact Support
+      3. Courses Offered At ZUT
+      4. Contact Support
       `;
 return response;
     
