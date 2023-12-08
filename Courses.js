@@ -24,7 +24,6 @@ const Courses = async (textArray, phoneNumber) => {
                   1.  Accountancy(BAC)
                   2.  Software Engineering(BSE)
                   3.  Information Technology(BIT)
-                  
                   4.  Cyber security (BCS)
                   5.  Procurement And Supply (BPS)
                  

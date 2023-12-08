@@ -18,6 +18,7 @@ const Admin = {
 
         console.log("Response Sent:", response);
          const checkRole = await User.findOne({number: phoneNumber});
+         const name  = checkRole.FirstName;
          const isAdmin = checkRole.Role;
        console.log("Role:",isAdmin)
         if (level === 1) {
@@ -28,7 +29,7 @@ const Admin = {
 
                
             }else if(checkRole && checkRole.Role === 'Admin'){
-                response = `CON <b>Welcome back Christopher!</b>
+                response = `CON <b>Welcome back ${name}!</b>
                 1. Review Applications
                 2. Manage Courses
                 3. Add Course category
@@ -156,17 +157,7 @@ const Admin = {
             } else {
                 // Invalid application selection or application is not in 'Pending' status
                 response = 'END Invalid application selection or application is not in pending status.';
-                4
-                4
-                4
-                4
-                4
-                4
-                4
-                4
-                4
-                4
-                4
+             
             }
         
             return response;
@@ -186,7 +177,7 @@ const Admin = {
             return response;
         }
 
-        if (level === 3 && textArray[2] === '1') {
+        if (level === 4 && textArray[2] === '1') {
             response = `CON Enter course code:`;
             return response;
         }if (level === 5 && textArray[2] === '1') {
@@ -213,7 +204,7 @@ const Admin = {
    
         if (level === 6 && textArray[2] === '1') {
             const course = textArray[3];
-            const code = textArray[3];
+            const code = textArray[4];
            // Get the selected category index from the USSD response
             const selectedCategoryIndex = parseInt(textArray[5]) - 1;
             // Retrieve the selected category name using the index
@@ -240,7 +231,7 @@ const Admin = {
                 if (selectedCategory) {
                     // Extract course name and course code from textArray
                     const courseName = textArray[3];
-                    const courseCode = textArray[3];
+                    const courseCode = textArray[4];
         
                     // Push the new course data into the Courses array of the selected category
                     selectedCategory.Courses.push({
@@ -289,7 +280,7 @@ const Admin = {
       }
 
       //List of the courses
-      if (level === 3 && textArray[2] === '2') {
+      if (level === 4 && textArray[2] === '2') {
         try {
             const selectedCategoryIndex = parseInt(textArray[3]) - 1;
             const selectedCategoryName = selectedCategories[selectedCategoryIndex];

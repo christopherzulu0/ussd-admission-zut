@@ -68,6 +68,7 @@ console.log("#",req.body)
       let userName;
       let userRegistered;
       let response = "";
+      let Admins = ""
       
     
      
@@ -82,13 +83,17 @@ console.log("#",req.body)
     
       }
       
-    //Count the number of Requests
-   
+      Admins = await User.findOne({ number: phoneNumber });
+      checkRole = Admins ? Admins.Role : null;
+      isSupplier = Admins ? Admins.Role : null;
+      
+      // Check if the user has the 'Admin' role
+      let isAdmin = checkRole === 'Admin';
   
 
       // MAIN LOGIC
       if (text == "" && userRegistered == true) {
-        response = MainMenu(userName);
+        response = MainMenu(userName,isAdmin);
 
       } else if (text == "" && userRegistered == false) {
         response = unregisteredMenu();

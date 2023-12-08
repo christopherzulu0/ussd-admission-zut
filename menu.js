@@ -64,17 +64,27 @@ const sendSMS2 = async (phoneNumber, message) => {
 
 
 const menu = {
-  MainMenu:(userName) => {
+  MainMenu:(userName,isAdmin) => {
     
-   
-      const response = `CON Welcome <b>${userName}!</b> to ZUCT Admission platform.
+   if(isAdmin){
+      
+   const response = `CON Hello ${userName}!
+               5. Manage your dashboard
+               99. Go Home
+               `;
+    return response;
+    
+   }else{
+    const response = `CON Welcome <b>${userName}!</b> to ZUCT Admission platform.
 
-      1. Apply For Admission
-      2. Check Application Status
-      3. Courses Offered At ZUT
-      4. Contact Support
-      `;
+    1. Apply For Admission
+    2. Check Application Status
+    3. Courses Offered At ZUT
+    4. Contact Support
+    `;
 return response;
+   }
+     
     
     
   },
